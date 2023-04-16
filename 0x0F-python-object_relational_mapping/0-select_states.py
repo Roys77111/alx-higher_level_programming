@@ -1,23 +1,18 @@
 #!/usr/bin/python3
 """
--- Lists all states from the database hbtn_0e_0_usa
--- takes 3 arguments
--- module: MySQLdb
--- Connects to a MySQL server running on localhost at port 3306
--- Results sorted in ascending order by states.id
--- Code should not be executed when imported
+python script that lists all states from the database hbtn_0e_0_usa
 """
-import MySQLdb
-import sys
 
+import MySQLdb
+from sys import argv
 
 if __name__ == "__main__":
-    dtb = MySQLdb.connect(host="localhost", user=sys.argv[1],
-                         passwd=sys.argv[2], db=sys.argv[3], port=3306)
-    cusr = dtb.cursor()
-    cusr.execute("SELECT * FROM states")
-    the_rows = cusr.fetchall()
-    for row in the_rows:
+    db = MySQLdb.connect(host="localhost", port=3306,
+                         user=argv[1], passwd=argv[2], db=argv[3])
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM states ORDER BY id ASC")
+    query_rows = cursor.fetchall()
+    for row in query_rows:
         print(row)
-    cusr.close()
-    dtb.close()
+    cursor.close()
+    db.close()
